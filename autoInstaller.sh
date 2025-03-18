@@ -13,7 +13,7 @@ function tmuxInstall() {
     sudo apt-get install tmux
     echo -e -n "[!] What do you want to do, download S4njer's tmux(1) config or gpakosz's tmux config(2)?" && read -r tmux_download_option
     if [[ "$tmux_download_option" == "1" ]]; then
-        raw_install_file="https://github.com/s4njer/My-Parrot-Configurations/raw/refs/heads/master"
+        raw_install_file="https://github.com/S4njer/My-parrot-Configurations/raw/refs/heads/main"
     elif [[ "$tmux_download_option" == "2" ]]; then
         raw_install_file="https://github.com/gpakosz/.tmux/raw/refs/heads/master"
     else
