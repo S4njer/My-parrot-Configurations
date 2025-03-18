@@ -10,4 +10,5 @@ chmod +x autoInstaller.sh
 
 ## How to install tmux
 To install tmux you don't need to do anything, simply execute `./autoInstaller.sh -i tmux`
->[!NOTE] You must change `$SHELL` variable to your desired one `export SHELL="/usr/bin/zsh"`
+>[!NOTE]
+>You must change `$SHELL` variable to your desired one `export SHELL="/usr/bin/zsh"`
