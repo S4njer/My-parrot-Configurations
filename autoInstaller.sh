@@ -48,7 +48,6 @@ function nvchadInstall() {
     mv $HOME/.config/nvim/lua/plugins/init.lua $HOME/.config/nvim/lua/plugins/init.lua.bak
     wget "$raw_files_dir/init.lua" -O $HOME/.config/nvim/lua/plugins/init.lua
     git clone https://github.com/nvzone/typr.git $HOME/.local/nvim/lazy/typr
-    nvim
   fi
 
   
@@ -80,13 +79,10 @@ function zshInstall() {
       
       rm -rf lsd_dir bat_dir 2>/dev/null
       git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH/custom/plugins/zsh-autosuggestions
-      source $HOME/.zshrc
-      /usr/bin/zsh
+      source $HOME/.zshrc 2>/dev/null
     else
       sudo apt-get install lsd bat zsh-autosuggestions zsh-syntax-highlighting -y 2>/dev/null
-      source $HOME/.zshrc
-      /usr/bin/zsh
-      
+      source $HOME/.zshrc 2>/dev/null
     fi
     echo -e "\n[?] Done"
   fi
@@ -130,16 +126,28 @@ function tmuxInstall() {
 }
 
 function install() {
+  tmuxInstall_final_message="\n$YELLOW[!]$CLEAR Tmux installed, launch it with the command: ${YELLOW}tmux$CLEAR"
+  nvchadInstall_final_message="\n$YELLOW[!]$CLEAR Nvchad installed, launch it with the command: ${YELLOW}nvim$CLEAR"
+  zshInstall_final_message="\n$YELLOW[!]$CLEAR Zsh installed, restart your terminal with the command: ${YELLOW}source ~/.zshrc$CLEAR"
+
   if [[ "$selection" == "tmux" ]]; then
     tmuxInstall
+    echo -e "$tmuxInstall_final_message"
   elif [[ "$selection" == "nvchad" ]]; then
     nvchadInstall
+    echo -e "$nvchadInstall_final_message"
   elif [[ "$selection" == "zsh" ]]; then
     zshInstall
+    echo -e "$zshInstall_final_message"
   elif [[ "$selection" == "all" ]]; then
     tmuxInstall
     zshInstall
     nvchadInstall
+
+    echo -e "${PURPLE}Final messages:${CLEAR}"
+    echo -e "\t$tmuxInstall_final_message"
+    echo -e "$PURPLE[+]$CLEAR First you need to initialize your zsh shell: \n\t$zshInstall_final_message"
+    echo -e "$PURPLE[+]$CLEAR Then you can launch nvchad with the command: \n\t$nvchadInstall_final_message"
   else
     echo "Invalid option"
     help
