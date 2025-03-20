@@ -90,18 +90,23 @@ function zshInstall() {
       source $HOME/.zshrc 2>/dev/null
     elif [[ "$lsd_bat_option" == "2" ]]; then
       declare -g installation_type="system wide"
+
+      # Install lsd and bat
+      echo -e "\n${YELLOW}[!] Making system wide installation...${RESET}"
+      sudo apt update -y 2>/dev/null
       sudo apt-get install lsd bat zsh-autosuggestions zsh-syntax-highlighting -y 2>/dev/null
       sudo mv /etc/zsh/zshrc /etc/zsh/zshrc.bak
-      wget "$raw_files_dir/.zshrc" -O /etc/zsh/zshrc
+      sudo wget "$raw_files_dir/.zshrc" -O /etc/zsh/zshrc
 
       # Add aliases
-      echo -e -n 'alias ls="/usr/bin/lsd"' | sudo tee -a /etc/zsh/zshrc
-      echo -e -n 'alias catrl="/usr/bin/batcat"' | sudo tee -a /etc/zsh/zshrc
-      echo -e -n 'alias cat="/usr/bin/batcat --paging=never"' | sudo tee -a /etc/zsh/zshrc
-      echo -e -n 'source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' | sudo tee -a /etc/zsh/zshrc
-      echo -e -n 'source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh' | sudo tee -a /etc/zsh/zshrc
+      echo -e 'alias ls="/usr/bin/lsd"' | sudo tee -a /etc/zsh/zshrc
+      echo -e 'alias catrl="/usr/bin/batcat"' | sudo tee -a /etc/zsh/zshrc
+      echo -e 'alias cat="/usr/bin/batcat --paging=never"' | sudo tee -a /etc/zsh/zshrc
+      echo -e 'source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' | sudo tee -a /etc/zsh/zshrc
+      echo -e 'source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh' | sudo tee -a /etc/zsh/zshrc
 
-      source $HOME/.zshrc 2>/dev/null
+      source /etc/zsh/zshrc 2>/dev/null
+
     else
     echo "${RED}Invalid option${RESET}, 1 = user installation, 2 = system installation" && exit 1
       
