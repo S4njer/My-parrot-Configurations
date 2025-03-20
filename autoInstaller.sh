@@ -21,23 +21,27 @@ function zshInstall() {
   echo -e "[!] Installing zsh...\n"
   sudo apt-get install zsh -y 2>/dev/null
   echo -e "\n[!] Installing oh-my-zsh..."
-  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh ; exit)"
   echo -e "\n[?] Done"
 
   git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH/plugins/zsh-autosuggestions
   mv $HOME/.zshrc $HOME/.zshrc.bak
   wget https://raw.githubusercontent.com/S4njer/My-parrot-Configurations/refs/heads/main/.zshrc -O $HOME/.zshrc
 
-  echo -e -n "[!] Do you want to install lsd and bat?" && read -r  lsd_bat_option
+  echo -e -n "[!] Do you want to install lsd and bat? (y/n): " && read -r  lsd_bat_option
   if [[ "$lsd_bat_option" == "y" ]]; then
     echo -e "\n[!] Installing lsd and bat..."
     echo -e -n"\n[!] Do you want on your user (1) or system wide (2)?" && read -r lsd_bat_option
     if [[ "$lsd_bat_option" == "1" ]]; then
       wget https://github.com/lsd-rs/lsd/releases/download/v1.1.5/lsd_1.1.5_amd64.deb
-      dpkg -i lsd_1.1.5_amd64.deb -x $HOME/.local/bin
+      dpkg-deb -x lsd_1.1.5_amd64.deb -x lsd_dir
       wget https://github.com/sharkdp/bat/releases/download/v0.25.0/bat_0.25.0_amd64.deb
-      dpkg -i bat_0.25.0_amd64.deb -x $HOME/.local/bin
+      dpkg-deb -x bat_0.25.0_amd64.deb -x bat_dir
+      cp -r lsd_dir/usr/* $HOME/.local/
+      cp -r bat_dir/usr/* $HOME/.local/
       rm lsd_1.1.5_amd64.deb bat_0.25.0_amd64.deb
+      
+      rm -rf lsd_dir bat_dir 2>/dev/null
     else
       sudo apt-get install lsd bat -y 2>/dev/null
     fi
