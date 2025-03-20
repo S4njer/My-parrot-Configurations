@@ -55,9 +55,9 @@ function nvchadInstall() {
 }
 
 function zshInstall() {
-  echo -e "$YELLOW[!]$WHITE Installing zsh...\n"
+  echo -e "$YELLOW[!]$CLEAR Installing zsh...\n"
   sudo apt-get install zsh -y 2>/dev/null
-  echo -e "\n\t$YELLOW[!]$WHITE Installing oh-my-zsh..."
+  echo -e "\n\t$YELLOW[!]$CLEAR Installing oh-my-zsh..."
   sh -c "$(curl -fsSL $raw_files_dir/oh_my_zsh.sh)"
   echo -e "\n[?] Done"
 
@@ -79,11 +79,14 @@ function zshInstall() {
       rm lsd_1.1.5_amd64.deb bat_0.25.0_amd64.deb
       
       rm -rf lsd_dir bat_dir 2>/dev/null
-      git clone git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH/custom/plugins/zsh-autosuggestions
+      git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH/custom/plugins/zsh-autosuggestions
       source $HOME/.zshrc
       /usr/bin/zsh
     else
-      sudo apt-get install lsd bat -y 2>/dev/null
+      sudo apt-get install lsd bat zsh-autosuggestions zsh-syntax-highlighting -y 2>/dev/null
+      source $HOME/.zshrc
+      /usr/bin/zsh
+      
     fi
     echo -e "\n[?] Done"
   fi
