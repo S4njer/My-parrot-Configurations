@@ -54,9 +54,9 @@ function nvchadInstall() {
 }
 
 function zshInstall() {
-  echo -e "$YELLOW[!]$CLEAR Installing zsh...\n"
+  echo -e "$YELLOW[!]$RESET Installing zsh...\n"
   sudo apt-get install zsh -y 2>/dev/null
-  echo -e "\n\t$YELLOW[!]$CLEAR Installing oh-my-zsh..."
+  echo -e "\n\t$YELLOW[!]$RESET Installing oh-my-zsh..."
   sh -c "$(curl -fsSL $raw_files_dir/oh_my_zsh_install.sh)"
   echo -e "\n[?] Done"
 
@@ -126,9 +126,9 @@ function tmuxInstall() {
 }
 
 function install() {
-  tmuxInstall_final_message="\n$YELLOW[!]$CLEAR Tmux installed, launch it with the command: ${YELLOW}tmux$CLEAR"
-  nvchadInstall_final_message="\n$YELLOW[!]$CLEAR Nvchad installed, launch it with the command: ${YELLOW}nvim$CLEAR"
-  zshInstall_final_message="\n$YELLOW[!]$CLEAR Zsh installed, restart your terminal with the command: ${YELLOW}source ~/.zshrc$CLEAR"
+  tmuxInstall_final_message="$YELLOW[!]$RESET Tmux installed, launch it with the command: ${YELLOW}tmux$RESET"
+  nvchadInstall_final_message="$YELLOW[!]$RESET Nvchad installed, launch it with the command: ${YELLOW}nvim$RESET"
+  zshInstall_final_message="$YELLOW[!]$RESET Zsh installed, restart your terminal with the command: ${YELLOW}source ~/.zshrc$RESET"
 
   if [[ "$selection" == "tmux" ]]; then
     tmuxInstall
@@ -144,10 +144,10 @@ function install() {
     zshInstall
     nvchadInstall
 
-    echo -e "${PURPLE}Final messages:${CLEAR}"
+    echo -e "${PURPLE}Final messages:${RESET}"
     echo -e "\t$tmuxInstall_final_message"
-    echo -e "$PURPLE[+]$CLEAR First you need to initialize your zsh shell: \n\t$zshInstall_final_message"
-    echo -e "$PURPLE[+]$CLEAR Then you can launch nvchad with the command: \n\t$nvchadInstall_final_message"
+    echo -e "$PURPLE[+]$RESET First you need to initialize your zsh shell:\n\t$zshInstall_final_message"
+    echo -e "$PURPLE[+]$RESET Then you can launch nvchad with the command: \n\t$nvchadInstall_final_message"
   else
     echo "Invalid option"
     help
