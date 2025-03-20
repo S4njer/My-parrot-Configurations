@@ -102,6 +102,7 @@ function zshInstall() {
       echo -e 'alias catrl="bat"' | tee -a $HOME/.zshrc
       echo -e 'alias cat="bat --paging=never"' | tee -a $HOME/.zshrc
       echo -e 'source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' | tee -a $HOME/.zshrc
+      echo -e 'source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh' | tee -a $HOME/.zshrc
 
       source $HOME/.zshrc 2>/dev/null
     elif [[ "$lsd_bat_option" == "2" ]]; then
