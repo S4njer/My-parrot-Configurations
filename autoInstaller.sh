@@ -31,9 +31,8 @@ function nvchadInstall() {
   rm -rf nvim-linux64 nvim-linux64.tar.gz 2>/dev/null
 
   # Install dependencies
-  dependencies=("gcc" "zip")
-  echo -e "\n\t${YELLOW}[!]${GRAY} Installing dependencies: ${YELLOW}${dependencies[@]}${GRAY} "
-  sudo apt install "${dependencies[@]}" -y 2>/dev/null
+  echo -e "\n\t${YELLOW}[!]${GRAY} Installing dependencies: ${YELLOW}gcc & zip${GRAY} "
+  sudo apt install gcc zip -y 2>/dev/null
 
   if [[ -d "$HOME/.config/nvim" ]]; then
     echo -e "\n\t${YELLOW}[!]${GRAY} nvchad already installed, updating nvchad..."
@@ -56,10 +55,10 @@ function nvchadInstall() {
 }
 
 function zshInstall() {
-  echo -e "[!] Installing zsh...\n"
+  echo -e "$YELLOW[!]$WHITE Installing zsh...\n"
   sudo apt-get install zsh -y 2>/dev/null
-  echo -e "\n[!] Installing oh-my-zsh..."
-  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh ; exit)"
+  echo -e "\n\t$YELLOW[!]$WHITE Installing oh-my-zsh..."
+  sh -c "$(curl -fsSL $raw_files_dir/oh_my_zsh.sh)"
   echo -e "\n[?] Done"
 
   git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH/plugins/zsh-autosuggestions
@@ -80,7 +79,9 @@ function zshInstall() {
       rm lsd_1.1.5_amd64.deb bat_0.25.0_amd64.deb
       
       rm -rf lsd_dir bat_dir 2>/dev/null
+      git clone git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH/custom/plugins/zsh-autosuggestions
       source $HOME/.zshrc
+      /usr/bin/zsh
     else
       sudo apt-get install lsd bat -y 2>/dev/null
     fi
@@ -134,8 +135,8 @@ function install() {
     zshInstall
   elif [[ "$selection" == "all" ]]; then
     tmuxInstall
-    nvchadInstall
     zshInstall
+    nvchadInstall
   else
     echo "Invalid option"
     help

@@ -525,7 +525,7 @@ run '~/.tmux/plugins/tpm/tpm'
 run-shell "~/.tmux/plugins/tmux-cpu/cpu.tmux"
 run-shell "~/.tmux/plugins/tmux-sidebar/sidebar.tmux"
 
-set-option -g default-shell "$SHELL"
+set-option -g default-shell "/usr/bin/zsh"
 
 #Plugins customizations
 set -g @sidebar-tree-command 'tree -C'
