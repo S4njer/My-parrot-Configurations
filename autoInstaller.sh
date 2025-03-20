@@ -1,27 +1,55 @@
 #!/bin/bash
+# Colours
+declare -g RED="\033[1;31m"
+declare -g GREEN="\033[1;32m"
+declare -g YELLOW="\033[1;33m"
+declare -g BLUE="\033[1;34m"
+declare -g PURPLE="\033[1;35m"
+declare -g CYAN="\033[1;36m"
+declare -g WHITE="\033[1;37m"
+declare -g GRAY="\033[1;30m"
+declare -g RESET="\033[0m"
+
+
+# Global Variables
+declare -g raw_files_dir="https://raw.githubusercontent.com/S4njer/My-parrot-Configurations/refs/heads/main"
 
 # Functions
 function help() {
   echo "Usage: $0 [-h] [-i]"
   echo "Options:"
   echo "  -h  Display help"
-  echo "  -i (tmux/nvchad/zsh) Install tmux/nvchad/zsh"
+  echo "  -i (tmux/nvchad/zsh/all) Install tmux/nvchad/zsh or all"
 }
 
 function nvchadInstall() {
-  echo -e "[!] Installing nvchad...\n"
+  echo -e "$YELLOW[!]$GRAY Installing nvchad...\n"
   wget https://github.com/neovim/neovim/releases/download/v0.10.0/nvim-linux64.tar.gz 
-  echo -e "\n[!] Extracting nvchad..."
+  echo -e "\n${YELLOW}[!]${GRAY} Extracting nvchad..."
   tar x -f nvim-linux64.tar.gz
   cp -r nvim-linux64/* ~/.local/
   rm -rf nvim-linux64 nvim-linux64.tar.gz 2>/dev/null
+
+  # Install dependencies
+  dependencies=("gcc" "zip")
+  echo -e "\n\t${YELLOW}[!]${GRAY} Installing dependencies: ${YELLOW}${dependencies[@]}${GRAY} "
+  sudo apt install "${dependencies[@]}" -y 2>/dev/null
+
   if [[ -d "$HOME/.config/nvim" ]]; then
+    echo -e "\n\t${YELLOW}[!]${GRAY} nvchad already installed, updating nvchad..."
     rm -rf $HOME/.config/nvim 2>/dev/null
-    git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
-    echo -e "\n[?] Done"
+    git clone https://github.com/NvChad/starter ~/.config/nvim
+    mv $HOME/.config/nvim/lua/plugins/init.lua $HOME/.config/nvim/lua/plugins/init.lua.bak
+    wget "$raw_files_dir/.config/nvim/lua/plugins/init.lua" -O $HOME/.config/nvim/lua/plugins/init.lua
+    git clone https://github.com/nvzone/typr.git $HOME/.local/nvim/lazy/typr
+    nvim
   else
-    git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
-    echo -e "\n[?] Done"
+    echo -e "\n\t${YELLOW}[!]${GRAY} Installing nvchad..."
+    git clone https://github.com/NvChad/starter ~/.config/nvim
+    mv $HOME/.config/nvim/lua/plugins/init.lua $HOME/.config/nvim/lua/plugins/init.lua.bak
+    wget "$raw_files_dir/.config/nvim/lua/plugins/init.lua" -O $HOME/.config/nvim/lua/plugins/init.lua
+    git clone https://github.com/nvzone/typr.git $HOME/.local/nvim/lazy/typr
+    nvim
   fi
   
   
