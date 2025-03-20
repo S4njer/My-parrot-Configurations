@@ -57,7 +57,7 @@ function zshInstall() {
   echo -e "$YELLOW[!]$CLEAR Installing zsh...\n"
   sudo apt-get install zsh -y 2>/dev/null
   echo -e "\n\t$YELLOW[!]$CLEAR Installing oh-my-zsh..."
-  sh -c "$(curl -fsSL $raw_files_dir/oh_my_zsh.sh)"
+  sh -c "$(curl -fsSL $raw_files_dir/oh_my_zsh_install.sh)"
   echo -e "\n[?] Done"
 
   git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH/plugins/zsh-autosuggestions
