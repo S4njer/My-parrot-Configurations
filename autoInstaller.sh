@@ -12,8 +12,6 @@ function nvchadInstall() {
   echo -e "[!] Installing nvchad...\n"
   wget https://github.com/neovim/neovim/releases/download/v0.10.0/nvim-linux64.tar.gz
   rm -rf nvim-linux64 nvim-linux64.tar.gz 2>/dev/null
-  tar -x -f nvim-linux64.tar.gz
-  sudo cp -r nvim-linux64/* ~/.local/
   git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
   echo -e "\n[?] Done"
 }
