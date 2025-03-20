@@ -28,7 +28,7 @@ function zshInstall() {
   mv $HOME/.zshrc $HOME/.zshrc.bak
   wget https://raw.githubusercontent.com/S4njer/My-parrot-Configurations/refs/heads/main/.zshrc -O $HOME/.zshrc
 
-  echo -e -n "[!] Do you want to install lsd and bat?" && read -r lsd_bat_option
+  echo -e -n "[!] Do you want to install lsd and bat?" && read -r  lsd_bat_option
   if [[ "$lsd_bat_option" == "y" ]]; then
     echo -e "\n[!] Installing lsd and bat..."
     echo -e -n"\n[!] Do you want on your user (1) or system wide (2)?" && read -r lsd_bat_option
@@ -38,7 +38,9 @@ function zshInstall() {
       wget https://github.com/sharkdp/bat/releases/download/v0.25.0/bat_0.25.0_amd64.deb
       dpkg -i bat_0.25.0_amd64.deb -x $HOME/.local/bin
       rm lsd_1.1.5_amd64.deb bat_0.25.0_amd64.deb
-    sudo apt-get install lsd bat -y 2>/dev/null
+    else
+      sudo apt-get install lsd bat -y 2>/dev/null
+    fi
     echo -e "\n[?] Done"
   fi
   }
