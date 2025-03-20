@@ -40,7 +40,7 @@ function nvchadInstall() {
     rm -rf $HOME/.config/nvim 2>/dev/null
     git clone https://github.com/NvChad/starter ~/.config/nvim
     mv $HOME/.config/nvim/lua/plugins/init.lua $HOME/.config/nvim/lua/plugins/init.lua.bak
-    wget "$raw_files_dir/.config/nvim/lua/plugins/init.lua" -O $HOME/.config/nvim/lua/plugins/init.lua
+    wget "$raw_files_dir/init.lua" -O $HOME/.config/nvim/lua/plugins/init.lua
     git clone https://github.com/nvzone/typr.git $HOME/.local/nvim/lazy/typr
     nvim
   else
