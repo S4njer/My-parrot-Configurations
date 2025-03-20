@@ -13,6 +13,7 @@ declare -g RESET="\033[0m"
 
 # Global Variables
 declare -g raw_files_dir="https://raw.githubusercontent.com/S4njer/My-parrot-Configurations/refs/heads/main"
+declare -g separators="${BLUE}==========================================${RESET}"
 
 # Functions
 function help() {
@@ -23,19 +24,19 @@ function help() {
 }
 
 function nvchadInstall() {
-  echo -e "$YELLOW[!]$GRAY Installing nvchad...\n"
+  echo -e "$YELLOW[!]$RESET Installing nvchad...\n"
   wget https://github.com/neovim/neovim/releases/download/v0.10.0/nvim-linux64.tar.gz 
-  echo -e "\n${YELLOW}[!]${GRAY} Extracting nvchad..."
-  tar x -f nvim-linux64.tar.gz
+  echo -e "\n${YELLOW}[!]${RESET} Extracting nvchad..."
+  tar x -f nvim-linux64.tar.gz &>/dev/null
   cp -r nvim-linux64/* ~/.local/
   rm -rf nvim-linux64 nvim-linux64.tar.gz 2>/dev/null
 
   # Install dependencies
-  echo -e "\n\t${YELLOW}[!]${GRAY} Installing dependencies: ${YELLOW}gcc & zip${GRAY} "
+  echo -e "\n${YELLOW}[!]${RESET} Installing dependencies: ${YELLOW}gcc & zip${RESET} "
   sudo apt install gcc zip -y 2>/dev/null
 
   if [[ -d "$HOME/.config/nvim" ]]; then
-    echo -e "\n\t${YELLOW}[!]${GRAY} nvchad already installed, updating nvchad..."
+    echo -e "\n${RED}[!]${GRAY} nvchad already installed, updating nvchad..."
     rm -rf $HOME/.config/nvim 2>/dev/null
     git clone https://github.com/NvChad/starter ~/.config/nvim
     mv $HOME/.config/nvim/lua/plugins/init.lua $HOME/.config/nvim/lua/plugins/init.lua.bak
@@ -56,18 +57,20 @@ function nvchadInstall() {
 function zshInstall() {
   echo -e "$YELLOW[!]$RESET Installing zsh...\n"
   sudo apt-get install zsh -y 2>/dev/null
-  echo -e "\n\t$YELLOW[!]$RESET Installing oh-my-zsh..."
-  sh -c "$(curl -fsSL $raw_files_dir/oh_my_zsh_install.sh)"
-  echo -e "\n[?] Done"
 
-  git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH/plugins/zsh-autosuggestions
+  echo -e "\n$separators\n"
+
+  echo -e "\n$YELLOW[!]$RESET Installing oh-my-zsh..."
+  sh -c "$(curl -fsSL $raw_files_dir/oh_my_zsh_install.sh)" 2>/dev/null
+
+  git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH/plugins/zsh-autosuggestions 2>/dev/null
   mv $HOME/.zshrc $HOME/.zshrc.bak
   wget https://raw.githubusercontent.com/S4njer/My-parrot-Configurations/refs/heads/main/.zshrc -O $HOME/.zshrc
 
-  echo -e -n "${YELLOW}[!]${RESET} Do you want to install lsd and bat? ${YELLOW}(y/n)${RESET}: " && read -r  lsd_bat_option
+  echo -e -n "${YELLOW}[!]${RESET} Do you want to install lsd and bat? ${YELLOW}(y/n)${RESET}: " && read -r lsd_bat_option
   if [[ "$lsd_bat_option" == "y" ]]; then
     echo -e "\n${YELLOW}[!] Installing lsd and bat...${RESET}"
-    echo -e -n"\n${YELLOW}[!]${RESET} Do you want on your user ${YELLOW}(1)${RESET} or system wide ${YELLOW}(2)${RESET}?" && read -r lsd_bat_option
+    echo -e -n "\n${YELLOW}[!]${RESET} Do you want on your user ${YELLOW}(1)${RESET} or system wide ${YELLOW}(2)${RESET}?" && read -r lsd_bat_option
     if [[ "$lsd_bat_option" == "1" ]]; then
       declare -g installation_type="user"
       wget https://github.com/lsd-rs/lsd/releases/download/v1.1.5/lsd_1.1.5_amd64.deb
@@ -80,6 +83,8 @@ function zshInstall() {
       
       rm -rf lsd_dir bat_dir 2>/dev/null
       git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH/custom/plugins/zsh-autosuggestions
+
+      echo -e "\n$separators\n"
       
       # Add aliases
       echo -e -n 'alias ls="lsd"' | tee -a $HOME/.zshrc
@@ -107,6 +112,8 @@ function zshInstall() {
 
       source /etc/zsh/zshrc 2>/dev/null
 
+      echo -e "\n$separators\n"
+
     else
     echo "${RED}Invalid option${RESET}, 1 = user installation, 2 = system installation" && exit 1
       
@@ -115,19 +122,21 @@ function zshInstall() {
   fi
   }
 function tmuxInstall() {
-  echo -e "[!] Installing tmux...\n"
-  sudo apt-get install tmux -y 2>/dev/null
-  echo -e -n "\n\n[!] What do you want to do, download S4njer's tmux(1) config or gpakosz's tmux config(2)? " && read -r tmux_download_option
+  echo -e "${YELLOW}[!]${RESET} Installing tmux...\n"
+  sudo apt-get install tmux -y 
+
+  echo -e "\n$separators\n"
+
+  echo -e -n "${YELLOW}[!]${RESET} What do you want to do, download ${YELLOW}S4njer's tmux config (1)${RESET} or ${YELLOW}gpakosz's tmux config (2)$RESET? " && read -r tmux_download_option
   if [[ "$tmux_download_option" == "1" ]]; then
     raw_install_file="https://raw.githubusercontent.com/S4njer/My-parrot-Configurations/refs/heads/main"
   elif [[ "$tmux_download_option" == "2" ]]; then
     raw_install_file="https://raw.githubusercontent.com/gpakosz/.tmux/refs/heads/master"
   else
-    echo "Invalid option"
-    echo -e "\n[1] S4njer's tmux config\n[2] gpakosz's tmux config"
+    echo "${RED}Invalid option: \n[1] S4njer's tmux config\n[2] gpakosz's tmux config${RESET}"
     exit 1
   fi
-  echo -e "\n[!] Downloading tmux config..."
+  echo -e "${YELLOW}[!]${RESET} Downloading tmux config..."
   if [[ -f "$HOME/.tmux.conf" ]] || [[ -f "$HOME/.tmux.conf.local" ]]; then
     rm "$HOME/.tmux.conf" 2>/dev/null
     rm "$HOME/.tmux.conf.local" 2>/dev/null
@@ -135,7 +144,7 @@ function tmuxInstall() {
   curl -s -X GET "$raw_install_file/.tmux.conf" >"$HOME/.tmux.conf"
   curl -s -X GET "$raw_install_file/.tmux.conf.local" >"$HOME/.tmux.conf.local"
 
-  echo -e "\n[!] Downloading tmux plugins..."
+  echo -e "${YELLOW}[!]${RESET} Downloading tmux plugins..."
 
   echo -e "\t Downloading TPM"
   git clone https://github.com/tmux-plugins/tpm.git $HOME/.tmux/plugins/tpm 2>/dev/null
@@ -149,6 +158,9 @@ function tmuxInstall() {
   echo -e "\n[!] TPM CheatSheet: \n\n[Ctrl + b] + I -> Install plugins\n[Ctrl + b] + U -> Update plugins\n[Ctrl + b] + R -> Reload tmux\n[Ctrl + b] + Shift + I -> Install new plugins\n[Ctrl + b] + Shift + U -> Remove plugins\n[Ctrl + b] + Shift + R -> Remove all plugins"
   echo -e "\n[!] Sidebar Cheatsheet: \n\n[Ctrl + b] + b -> Toggle sidebar\n[Ctrl + b] + B -> Toggle sidebar on the left\n[Ctrl + b] + Shift + B -> Toggle sidebar on the right"
   echo -e "\n\n[?] Done"
+
+  echo -e "\n$separators\n"
+
   tmux source "$HOME/.tmux.conf"
 }
 
