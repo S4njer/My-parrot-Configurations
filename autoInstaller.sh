@@ -34,9 +34,9 @@ function zshInstall() {
     echo -e -n"\n[!] Do you want on your user (1) or system wide (2)?" && read -r lsd_bat_option
     if [[ "$lsd_bat_option" == "1" ]]; then
       wget https://github.com/lsd-rs/lsd/releases/download/v1.1.5/lsd_1.1.5_amd64.deb
-      dpkg-deb -x lsd_1.1.5_amd64.deb -x lsd_dir
+      dpkg-deb -x lsd_1.1.5_amd64.deb lsd_dir
       wget https://github.com/sharkdp/bat/releases/download/v0.25.0/bat_0.25.0_amd64.deb
-      dpkg-deb -x bat_0.25.0_amd64.deb -x bat_dir
+      dpkg-deb -x bat_0.25.0_amd64.deb bat_dir
       cp -r lsd_dir/usr/* $HOME/.local/
       cp -r bat_dir/usr/* $HOME/.local/
       rm lsd_1.1.5_amd64.deb bat_0.25.0_amd64.deb
