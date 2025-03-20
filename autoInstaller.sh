@@ -8,6 +8,40 @@ function help() {
   echo "  -i (tmux/nvchad/zsh) Install tmux/nvchad/zsh"
 }
 
+function nvchadInstall() {
+  echo -e "[!] Installing nvchad...\n"
+  wget https://github.com/neovim/neovim/releases/download/v0.10.0/nvim-linux64.tar.gz
+  tar xzvf nvim-linux64.tar.gz
+  sudo cp -r nvim-linux64/* ~/.local/
+  git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
+  echo -e "\n[?] Done"
+}
+
+function zshInstall() {
+  echo -e "[!] Installing zsh...\n"
+  sudo apt-get install zsh -y 2>/dev/null
+  echo -e "\n[!] Installing oh-my-zsh..."
+  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  echo -e "\n[?] Done"
+
+  git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH/plugins/zsh-autosuggestions
+  mv $HOME/.zshrc $HOME/.zshrc.bak
+  wget https://raw.githubusercontent.com/S4njer/My-parrot-Configurations/refs/heads/main/.zshrc -O $HOME/.zshrc
+
+  echo -e -n "[!] Do you want to install lsd and bat?" && read -r lsd_bat_option
+  if [[ "$lsd_bat_option" == "y" ]]; then
+    echo -e "\n[!] Installing lsd and bat..."
+    echo -e -n"\n[!] Do you want on your user (1) or system wide (2)?" && read -r lsd_bat_option
+    if [[ "$lsd_bat_option" == "1" ]]; then
+      wget https://github.com/lsd-rs/lsd/releases/download/v1.1.5/lsd_1.1.5_amd64.deb
+      dpkg -i lsd_1.1.5_amd64.deb -x $HOME/.local/bin
+      wget https://github.com/sharkdp/bat/releases/download/v0.25.0/bat_0.25.0_amd64.deb
+      dpkg -i bat_0.25.0_amd64.deb -x $HOME/.local/bin
+      rm lsd_1.1.5_amd64.deb bat_0.25.0_amd64.deb
+    sudo apt-get install lsd bat -y 2>/dev/null
+    echo -e "\n[?] Done"
+  fi
+  }
 function tmuxInstall() {
   echo -e "[!] Installing tmux...\n"
   sudo apt-get install tmux -y 2>/dev/null
