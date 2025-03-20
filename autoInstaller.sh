@@ -72,6 +72,17 @@ function zshInstall() {
     echo -e "\n${YELLOW}[!] Installing lsd and bat...${RESET}"
     echo -e -n "\n${YELLOW}[!]${RESET} Do you want on your user ${YELLOW}(1)${RESET} or system wide ${YELLOW}(2)${RESET}?: " && read -r lsd_bat_option
     if [[ "$lsd_bat_option" == "1" ]]; then
+      echo -e "\n$YELLOW[!]$RESET To use this option you need to have gcc and zip installed"
+      
+      if [[ ! -x "$(command -v gcc)" ]] || [[ ! -x "$(command -v zip)" ]]; then
+        echo -e "\n${RED}[!]${RESET} gcc and zip are not installed, please install them"
+        sudo apt install gcc zip -y 2>/dev/null
+        if [[ $? -ne 0 ]]; then
+          echo -e "\n${RED}[!]${RESET} gcc and zip are not installed, please install them"
+          exit 1
+        fi
+      fi
+
       declare -g installation_type="user"
       wget https://github.com/lsd-rs/lsd/releases/download/v1.1.5/lsd_1.1.5_amd64.deb
       dpkg-deb -x lsd_1.1.5_amd64.deb lsd_dir
@@ -87,10 +98,10 @@ function zshInstall() {
       echo -e "\n$separators\n"
       
       # Add aliases
-      echo -e -n 'alias ls="lsd"' | tee -a $HOME/.zshrc
-      echo -e -n 'alias catrl="bat"' | tee -a $HOME/.zshrc
-      echo -e -n 'alias cat="bat --paging=never"' | tee -a $HOME/.zshrc
-      echo -e -n 'source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' | tee -a $HOME/.zshrc
+      echo -e 'alias ls="lsd"' | tee -a $HOME/.zshrc
+      echo -e 'alias catrl="bat"' | tee -a $HOME/.zshrc
+      echo -e 'alias cat="bat --paging=never"' | tee -a $HOME/.zshrc
+      echo -e 'source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' | tee -a $HOME/.zshrc
 
       source $HOME/.zshrc 2>/dev/null
     elif [[ "$lsd_bat_option" == "2" ]]; then

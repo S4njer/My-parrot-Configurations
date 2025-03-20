@@ -15,6 +15,10 @@ This is a simple bash script that automates my configurations for the desired ma
 - tmux
 - neovim
 
+For NvChad correct work you need the next:
+- gcc 
+- zip
+
 ## How to use
 To use this script you need to execute it with the desired option, the options are:
 - `tmux` (To install tmux)
