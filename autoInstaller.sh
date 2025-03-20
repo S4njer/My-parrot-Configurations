@@ -70,7 +70,7 @@ function zshInstall() {
   echo -e -n "${YELLOW}[!]${RESET} Do you want to install lsd and bat? ${YELLOW}(y/n)${RESET}: " && read -r lsd_bat_option
   if [[ "$lsd_bat_option" == "y" ]]; then
     echo -e "\n${YELLOW}[!] Installing lsd and bat...${RESET}"
-    echo -e -n "\n${YELLOW}[!]${RESET} Do you want on your user ${YELLOW}(1)${RESET} or system wide ${YELLOW}(2)${RESET}?" && read -r lsd_bat_option
+    echo -e -n "\n${YELLOW}[!]${RESET} Do you want on your user ${YELLOW}(1)${RESET} or system wide ${YELLOW}(2)${RESET}?: " && read -r lsd_bat_option
     if [[ "$lsd_bat_option" == "1" ]]; then
       declare -g installation_type="user"
       wget https://github.com/lsd-rs/lsd/releases/download/v1.1.5/lsd_1.1.5_amd64.deb
