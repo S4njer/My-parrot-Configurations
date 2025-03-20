@@ -64,11 +64,12 @@ function zshInstall() {
   mv $HOME/.zshrc $HOME/.zshrc.bak
   wget https://raw.githubusercontent.com/S4njer/My-parrot-Configurations/refs/heads/main/.zshrc -O $HOME/.zshrc
 
-  echo -e -n "[!] Do you want to install lsd and bat? (y/n): " && read -r  lsd_bat_option
+  echo -e -n "${YELLOW}[!]${RESET} Do you want to install lsd and bat? ${YELLOW}(y/n)${RESET}: " && read -r  lsd_bat_option
   if [[ "$lsd_bat_option" == "y" ]]; then
-    echo -e "\n[!] Installing lsd and bat..."
-    echo -e -n"\n[!] Do you want on your user (1) or system wide (2)?" && read -r lsd_bat_option
+    echo -e "\n${YELLOW}[!] Installing lsd and bat...${RESET}"
+    echo -e -n"\n${YELLOW}[!]${RESET} Do you want on your user ${YELLOW}(1)${RESET} or system wide ${YELLOW}(2)${RESET}?" && read -r lsd_bat_option
     if [[ "$lsd_bat_option" == "1" ]]; then
+      declare -g installation_type="user"
       wget https://github.com/lsd-rs/lsd/releases/download/v1.1.5/lsd_1.1.5_amd64.deb
       dpkg-deb -x lsd_1.1.5_amd64.deb lsd_dir
       wget https://github.com/sharkdp/bat/releases/download/v0.25.0/bat_0.25.0_amd64.deb
@@ -79,10 +80,31 @@ function zshInstall() {
       
       rm -rf lsd_dir bat_dir 2>/dev/null
       git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH/custom/plugins/zsh-autosuggestions
+      
+      # Add aliases
+      echo -e -n 'alias ls="lsd"' | tee -a $HOME/.zshrc
+      echo -e -n 'alias catrl="bat"' | tee -a $HOME/.zshrc
+      echo -e -n 'alias cat="bat --paging=never"' | tee -a $HOME/.zshrc
+      echo -e -n 'source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' | tee -a $HOME/.zshrc
+
+      source $HOME/.zshrc 2>/dev/null
+    elif [[ "$lsd_bat_option" == "2" ]]; then
+      declare -g installation_type="system wide"
+      sudo apt-get install lsd bat zsh-autosuggestions zsh-syntax-highlighting -y 2>/dev/null
+      sudo mv /etc/zsh/zshrc /etc/zsh/zshrc.bak
+      wget "$raw_files_dir/.zshrc" -O /etc/zsh/zshrc
+
+      # Add aliases
+      echo -e -n 'alias ls="/usr/bin/lsd"' | sudo tee -a /etc/zsh/zshrc
+      echo -e -n 'alias catrl="/usr/bin/batcat"' | sudo tee -a /etc/zsh/zshrc
+      echo -e -n 'alias cat="/usr/bin/batcat --paging=never"' | sudo tee -a /etc/zsh/zshrc
+      echo -e -n 'source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' | sudo tee -a /etc/zsh/zshrc
+      echo -e -n 'source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh' | sudo tee -a /etc/zsh/zshrc
+
       source $HOME/.zshrc 2>/dev/null
     else
-      sudo apt-get install lsd bat zsh-autosuggestions zsh-syntax-highlighting -y 2>/dev/null
-      source $HOME/.zshrc 2>/dev/null
+    echo "${RED}Invalid option${RESET}, 1 = user installation, 2 = system installation" && exit 1
+      
     fi
     echo -e "\n[?] Done"
   fi
@@ -144,7 +166,7 @@ function install() {
     zshInstall
     nvchadInstall
 
-    echo -e "${PURPLE}Final messages:${RESET}"
+    echo -e "\n${PURPLE}Final messages:${RESET}"
     echo -e "\t$tmuxInstall_final_message"
     echo -e "$PURPLE[+]$RESET First you need to initialize your zsh shell:\n\t$zshInstall_final_message"
     echo -e "$PURPLE[+]$RESET Then you can launch nvchad with the command: \n\t$nvchadInstall_final_message"

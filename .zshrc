@@ -108,8 +108,4 @@ source $ZSH/oh-my-zsh.sh
 
 export PATH=$HOME/.local/bin:$PATH
 
-alias ls="lsd"
-alias catrl="bat"
-alias cat="bat --paging=never"
 alias ocat="/usr/bin/cat"
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
