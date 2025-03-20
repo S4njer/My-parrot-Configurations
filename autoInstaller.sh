@@ -13,7 +13,7 @@ function nvchadInstall() {
   wget https://github.com/neovim/neovim/releases/download/v0.10.0/nvim-linux64.tar.gz 
   echo -e "\n[!] Extracting nvchad..."
   tar x -f nvim-linux64.tar.gz
-  sudo cp -r nvim-linux64/* ~/.local/
+  cp -r nvim-linux64/* ~/.local/
   rm -rf nvim-linux64 nvim-linux64.tar.gz 2>/dev/null
   if [[ -d "$HOME/.config/nvim" ]]; then
     rm -rf $HOME/.config/nvim 2>/dev/null
