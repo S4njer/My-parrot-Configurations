@@ -11,7 +11,8 @@ function help() {
 function nvchadInstall() {
   echo -e "[!] Installing nvchad...\n"
   wget https://github.com/neovim/neovim/releases/download/v0.10.0/nvim-linux64.tar.gz
-  tar xzvf nvim-linux64.tar.gz
+  rm -rf nvim-linux64 nvim-linux64.tar.gz 2>/dev/null
+  tar -x -f nvim-linux64.tar.gz
   sudo cp -r nvim-linux64/* ~/.local/
   git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
   echo -e "\n[?] Done"
@@ -42,6 +43,7 @@ function zshInstall() {
       rm lsd_1.1.5_amd64.deb bat_0.25.0_amd64.deb
       
       rm -rf lsd_dir bat_dir 2>/dev/null
+      source $HOME/.zshrc
     else
       sudo apt-get install lsd bat -y 2>/dev/null
     fi
