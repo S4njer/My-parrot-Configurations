@@ -78,8 +78,18 @@ function zshInstall() {
         echo -e "\n${RED}[!]${RESET} gcc and zip are not installed, please install them"
         sudo apt install gcc zip -y 2>/dev/null
         if [[ $? -ne 0 ]]; then
-          echo -e "\n${RED}[!]${RESET} gcc and zip are not installed, please install them"
-          exit 1
+          # Install gcc and zip locally
+          echo -e "\n${RED}[!]${RESET} gcc and zip are not installed, installing it locally..."
+          wget http://ftp.debian.org/debian/pool/main/g/gcc-12/gcc-12_12.2.0-14_amd64.deb
+          wget http://ftp.debian.org/debian/pool/main/z/zip/zip_3.0-11_amd64.deb
+          dpkg-deb -x gcc-12_12.2.0-14_amd64.deb gcc_dir
+          dpkg-deb -x zip_3.0-11_amd64.deb zip_dir
+
+          cp -r gcc_dir/usr/* $HOME/.local/
+          cp -r zip_dir/usr/* $HOME/.local/
+
+          rm -rf {gcc_dir,zip_dir} 2>/dev/null
+
         fi
       fi
 
