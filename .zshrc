@@ -102,9 +102,26 @@ source $ZSH/oh-my-zsh.sh
 # - $ZSH_CUSTOM/macos.zsh
 # For a full list of active aliases, run `alias`.
 #
+# PERSONAL FUNCTIONS
+function cheatsh(){
+  curl -s -X GET cheat.sh/$1
+}
+
+#
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+export PATH=$HOME/.local/bin:$PATH
+
+alias ocat="/usr/bin/cat"
+alias ls="lsd"
+alias catrl="bat"
+alias cat="bat --paging=never"
+
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+export WINDIR="/mnt/c/Users/s4nje"
 
 export PATH=$HOME/.local/bin:$PATH
 
