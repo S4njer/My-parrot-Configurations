@@ -23,6 +23,10 @@ function help() {
   echo "  -i (tmux/nvchad/zsh/all) Install tmux/nvchad/zsh or all"
 }
 
+function cheatshInstall(){
+  curl -s https://cht.sh/:cht.sh | sudo tee /usr/local/bin/cht.sh && sudo chmod +x /usr/local/bin/cht.sh
+}
+
 function nvchadInstall() {
   echo -e "$YELLOW[!]$RESET Installing nvchad...\n"
   wget https://github.com/neovim/neovim/releases/download/v0.10.0/nvim-linux64.tar.gz 
@@ -193,17 +197,21 @@ function install() {
 
   if [[ "$selection" == "tmux" ]]; then
     tmuxInstall
+    cheatshInstall
     echo -e "$tmuxInstall_final_message"
   elif [[ "$selection" == "nvchad" ]]; then
     nvchadInstall
+    cheatshInstall
     echo -e "$nvchadInstall_final_message"
   elif [[ "$selection" == "zsh" ]]; then
     zshInstall
+    cheatshInstall
     echo -e "$zshInstall_final_message"
   elif [[ "$selection" == "all" ]]; then
     tmuxInstall
     zshInstall
     nvchadInstall
+    cheatshInstall
 
     echo -e "\n${PURPLE}Final messages:${RESET}"
     echo -e "\t$tmuxInstall_final_message"
