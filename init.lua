@@ -21,6 +21,7 @@ return {
     end, {}),
 
     vim.keymap.set({ "n", "v" }, "<RightMouse>", function()
+      LLjfeiojoiejf
       require('menu.utils').delete_old_menus()
 
     vim.cmd.exec '"normal! \\<RightMouse>"'
