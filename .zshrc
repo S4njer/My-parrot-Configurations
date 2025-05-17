@@ -72,7 +72,7 @@ ZSH_THEME="agnoster"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
                 git
-                zsh-autosuggestions
+                # zsh-autosuggestions
         )
 
 source $ZSH/oh-my-zsh.sh
@@ -118,9 +118,10 @@ alias cat="batcat --paging=never"
 alias cheatsh="cht.sh"
 
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+# source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export WINDIR="/mnt/c/Users/s4nje"
 
 export PATH=$HOME/.local/bin:$PATH
 
 alias ocat="/usr/bin/cat"
+alias cdl='eval "cd !$"'
