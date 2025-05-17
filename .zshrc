@@ -109,7 +109,16 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+function setTarget(){
+  target=$1
+  echo "$1" > $HOME/.config/bin/target
+  source ~/.zshrc
+  echo -e "[!] TARGET: $ASSET"
+}
+
+
 export PATH=$HOME/.local/bin:$PATH
+export ASSET=$(cat $HOME/.config/bin/target)
 
 alias ocat="/usr/bin/cat"
 alias ls="lsd"

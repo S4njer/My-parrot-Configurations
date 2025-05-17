@@ -94,6 +94,9 @@ function zshInstall() {
           cp -r zip_dir/usr/* $HOME/.local/
 
           rm -rf {gcc_dir,zip_dir} 2>/dev/null
+          mv $HOME/.oh-my-zsh/themes/agnoster.zsh-theme $HOME/.oh-my-zsh/themes/agnoster.zsh-theme.backup
+          cp ./agnoster.zsh-theme $HOME/.oh-my-zsh/themes/agnoster.zsh-theme
+          mkdir $HOME/.config/bin
 
         fi
       fi
