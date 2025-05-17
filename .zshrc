@@ -113,8 +113,8 @@ export PATH=$HOME/.local/bin:$PATH
 
 alias ocat="/usr/bin/cat"
 alias ls="lsd"
-alias catrl="bat"
-alias cat="bat --paging=never"
+alias catrl="batcat"
+alias cat="batcat --paging=never"
 alias cheatsh="cht.sh"
 
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
