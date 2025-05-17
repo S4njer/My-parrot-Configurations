@@ -142,11 +142,13 @@ function zshInstall() {
 
       source /etc/zsh/zshrc 2>/dev/null
 
+      echo -e "Funcionalidades Custom ZSH:"
+      echo -e "1. setTarget function on zsh (allows to view the target on ZSH)"
+
       echo -e "\n$separators\n"
 
     else
     echo "${RED}Invalid option${RESET}, 1 = user installation, 2 = system installation" && exit 1
-      
     fi
     echo -e "\n[?] Done"
   fi
