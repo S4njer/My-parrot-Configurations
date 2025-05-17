@@ -47,6 +47,7 @@ function nvchadInstall() {
     wget "$raw_files_dir/init.lua" -O $HOME/.config/nvim/lua/plugins/init.lua
     git clone https://github.com/nvzone/typr.git $HOME/.local/nvim/lazy/typr
     nvim
+    cp "lspconfig.lua" "$HOME/.config/nvim/lua/configs/lspconfig.lua"
   else
     echo -e "\n\t${YELLOW}[!]${GRAY} Installing nvchad..."
     git clone https://github.com/NvChad/starter ~/.config/nvim
