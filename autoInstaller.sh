@@ -20,7 +20,11 @@ function help() {
   echo "Usage: $0 [-h] [-i]"
   echo "Options:"
   echo "  -h  Display help"
-  echo "  -i (tmux/nvchad/zsh/all) Install tmux/nvchad/zsh or all"
+  echo "  -i (tmux/nvchad/zsh/kitty/all) Install tmux/nvchad/zsh or all"
+}
+function kittyInstall(){
+  sudo apt-get install libwayland-cursor0 libwayland-egl1 kitty
+  cp -r "./kitty" "$HOME/.config/kitty/"
 }
 
 function cheatshInstall(){
@@ -200,6 +204,8 @@ function install() {
   tmuxInstall_final_message="$YELLOW[!]$RESET Tmux installed, launch it with the command: ${YELLOW}tmux$RESET"
   nvchadInstall_final_message="$YELLOW[!]$RESET Nvchad installed, launch it with the command: ${YELLOW}nvim$RESET"
   zshInstall_final_message="$YELLOW[!]$RESET Zsh installed, restart your terminal with the command: ${YELLOW}source ~/.zshrc$RESET"
+  kittyInstall_final_message="$YELLOW[!]$RESET Kitty installed${YELLOW}source ~/.zshrc$RESET"
+  kittyInstall_final_message
 
   if [[ "$selection" == "tmux" ]]; then
     tmuxInstall
@@ -213,11 +219,16 @@ function install() {
     zshInstall
     cheatshInstall
     echo -e "$zshInstall_final_message"
+  elif [[ "$selection" == "kitty" ]]; then
+    kittyInstall
+    cheatshInstall
+    echo -e "$kittyInstall_final_message"
   elif [[ "$selection" == "all" ]]; then
     tmuxInstall
     zshInstall
     nvchadInstall
     cheatshInstall
+    kittyInstall
 
     echo -e "\n${PURPLE}Final messages:${RESET}"
     echo -e "\t$tmuxInstall_final_message"

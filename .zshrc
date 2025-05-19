@@ -72,7 +72,6 @@ ZSH_THEME="agnoster"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
                 git
-                # zsh-autosuggestions
         )
 
 source $ZSH/oh-my-zsh.sh
@@ -132,9 +131,13 @@ function extractPorts(){
 	cat extractPorts.tmp; rm extractPorts.tmp
 }
 
+function initScan(){
+  nmap -p- --min-rate 3000 -v -oG $PWD/init_scan.grep -Pn -sS $1 
+}
 
 
 export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/go/bin:$PATH
 export ASSET=$(cat $HOME/.config/bin/target)
 
 alias ocat="/usr/bin/cat"
@@ -144,10 +147,14 @@ alias cat="batcat --paging=never"
 alias cheatsh="cht.sh"
 
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $ZSH/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 export WINDIR="/mnt/c/Users/s4nje"
 
 export PATH=$HOME/.local/bin:$PATH
 
 alias ocat="/usr/bin/cat"
 alias cdl='eval "cd !$"'
+
+## LS Custom Alias
+alias pls="/usr/bin/lsd --human-readable --date relative -l --total-size"
+

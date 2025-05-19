@@ -145,6 +145,7 @@ prompt_end() {
   fi
   echo -n "%{%f%}"
   CURRENT_BG=''
+  echo ''
 }
 
 git_toplevel() {
@@ -369,6 +370,9 @@ build_prompt() {
   prompt_bzr
   prompt_hg
   prompt_end
+  echo "   L %f%F{blue}$%f"
+  # prompt_segment black default "%{%f%b%k%}"
+
 }
 
 PROMPT='%{%f%b%k%}$(build_prompt) '
