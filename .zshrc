@@ -158,3 +158,5 @@ alias cdl='eval "cd !$"'
 ## LS Custom Alias
 alias pls="/usr/bin/lsd --human-readable --date relative -l --total-size"
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

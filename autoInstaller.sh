@@ -81,6 +81,11 @@ function zshInstall() {
   cp ./agnoster.zsh-theme $HOME/.oh-my-zsh/themes/agnoster.zsh-theme
   mkdir $HOME/.config/bin
 
+  echo -e "[!] Installing FZF....."
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  ~/.fzf/install
+
+
 
   echo -e -n "${YELLOW}[!]${RESET} Do you want to install lsd and bat? ${YELLOW}(y/n)${RESET}: " && read -r lsd_bat_option
   if [[ "$lsd_bat_option" == "y" ]]; then
