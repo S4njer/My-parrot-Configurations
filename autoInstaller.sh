@@ -76,6 +76,12 @@ function zshInstall() {
   mv $HOME/.zshrc $HOME/.zshrc.bak
   wget https://raw.githubusercontent.com/S4njer/My-parrot-Configurations/refs/heads/main/.zshrc -O $HOME/.zshrc
 
+  # Oh-My-Zsh Theme
+  mv $HOME/.oh-my-zsh/themes/agnoster.zsh-theme $HOME/.oh-my-zsh/themes/agnoster.zsh-theme.backup
+  cp ./agnoster.zsh-theme $HOME/.oh-my-zsh/themes/agnoster.zsh-theme
+  mkdir $HOME/.config/bin
+
+
   echo -e -n "${YELLOW}[!]${RESET} Do you want to install lsd and bat? ${YELLOW}(y/n)${RESET}: " && read -r lsd_bat_option
   if [[ "$lsd_bat_option" == "y" ]]; then
     echo -e "\n${YELLOW}[!] Installing lsd and bat...${RESET}"
@@ -98,9 +104,6 @@ function zshInstall() {
           cp -r zip_dir/usr/* $HOME/.local/
 
           rm -rf {gcc_dir,zip_dir} 2>/dev/null
-          mv $HOME/.oh-my-zsh/themes/agnoster.zsh-theme $HOME/.oh-my-zsh/themes/agnoster.zsh-theme.backup
-          cp ./agnoster.zsh-theme $HOME/.oh-my-zsh/themes/agnoster.zsh-theme
-          mkdir $HOME/.config/bin
 
         fi
       fi
@@ -156,6 +159,7 @@ function zshInstall() {
     fi
     echo -e "\n[?] Done"
   fi
+
   }
 function tmuxInstall() {
   echo -e "${YELLOW}[!]${RESET} Installing tmux...\n"
