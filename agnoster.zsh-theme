@@ -363,7 +363,8 @@ prompt_date(){
 }
 
 prompt_ipaddress(){
-  iface="eth0"
+  iface=$(cat $HOME/.config/bin/local_iface)
+
   ip_address=$(ip -o -4 addr list "$iface" | cut -d / -f 1 | awk '{print $4}')
   prompt_segment cyan white " $iface: $ip_address"
 

@@ -119,6 +119,16 @@ function mkt(){
 	mkdir {nmap,content,exploits,scripts}
 }
 
+function setIface(){
+  echo -e "[!] Aquí están todas las interfaces disponibles:"
+  ip -o -4 addr list | awk '{print $1,$2,$4}' | sort 
+
+  echo -e -n "[+] Iface (name): " && read iface
+  echo "$iface" > $HOME/.config/bin/local_iface
+  echo -e "[!] IFACE: $iface"
+  source ~/.zshrc
+}
+
 # Extract nmap information
 function extractPorts(){
 	ports="$(cat $1 | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')"
