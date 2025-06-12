@@ -162,6 +162,8 @@ function zshInstall() {
     else
     echo "${RED}Invalid option${RESET}, 1 = user installation, 2 = system installation" && exit 1
     fi
+    mkdir $HOME/.config/bin 2>/dev/null
+    touch $HOME/.config/bin/target 2>/dev/null
     echo -e "\n[?] Done"
   fi
 

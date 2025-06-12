@@ -60,7 +60,7 @@ ZSH_THEME="agnoster"
 # "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
+HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -135,6 +135,82 @@ function initScan(){
   nmap -p- --min-rate 3000 -v -oG $PWD/init_scan.grep -Pn -sS $1 
 }
 
+function cve2url(){
+  if [[ ! $1 ]]; then
+    echo -e "[!] Uso: $0 <file_with_cve>"
+  else
+    output_file="$1_URLS.csv"
+    sorted_file="$1_sorted.txt"
+    sort -u -r $1 > $sorted_file
+    echo 'cve_id,cve_url' > $output_file
+
+    cat $1 | while read cve;do    
+      url_to_cvepage="https://www.cvedetails.com/cve"
+      full_cve_url=$url_to_cvepage/$cve
+      echo "$cve,$full_cve_url" | tee -a $output_file 
+    done
+  fi
+}
+
+function domainInspector(){
+  if [[ ! $1 ]]; then
+    echo -e "[!] Uso: $0 domains.txt"
+  fi
+  if [[ ! -f /usr/bin/asn ]]; then
+    echo -e "[!] No tienes instalado asn. Procediendo..."
+    sudo apt install asn
+    echo -e "[!] Vuelva a lanzar la función"
+    exit 1
+  fi
+
+  for domain in $(cat $1); do
+    asn -j "$domain" | tee -a inspectedDomains.json
+  done
+  
+}
+
+function asn2obsidian(){
+    #!/bin/bash
+  file=$1
+  if [[ ! $file ]]; then
+    echo -e "[!] Uso: $0 <path_to_domains>.txt"
+    sleep 2
+    exit 1
+  fi
+  echo "Espere, suele tardar un poco..."
+
+  echo "asset,domain,host_type,ipaddr,dig_output,asn_target,asn_ip,as_number,as_name,org,country,city,cpes,ports" > enriched_assets.csv
+  number=1
+
+
+  for line in $(cat $file) ; do
+    echo -e "[$number/$(wc -l $file |awk '{print $1}')]"
+      asset_code=$(printf "A%02d" "$number")
+      ip=$(dig +short "$line" | head -n 1)
+      dig_output=$(dig "$line" | awk '/ANSWER SECTION:/ {flag=1; next} /;;/ {if (flag) exit} flag' | tr '\n' ';' | sed 's/;*$//')
+
+      # Skip if no IP was resolved
+      if [[ -z "$ip" ]]; then
+          echo "$asset_code,$line,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A" >> enriched_assets.csv
+          ((number++))
+          continue
+      fi
+
+      # Run asn and save JSON temporarily
+      tmp_json=$(mktemp)
+      asn -j "$ip" > "$tmp_json"
+
+      # Extract fields with jq
+      asn_csv=$(jq -r '. as $root | .results[] | [ $root.target, $root.target_type, .ip, .routing.as_number, .routing.as_name, .org_name, .geolocation.country, .geolocation.city , (.fingerprinting.cpes | join (";")) , (.fingerprinting.ports | join (";")) ] | @csv' "$tmp_json")
+
+      # Combine all fields and write final output
+      echo "$asset_code,$line,$ip,\"$dig_output\",$asn_csv" >> enriched_assets.csv
+
+      rm "$tmp_json"
+      ((number++))
+  done
+}
+
 
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/go/bin:$PATH
@@ -148,7 +224,7 @@ alias cheatsh="cht.sh"
 
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZSH/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-export WINDIR="/mnt/c/Users/s4nje"
+export WINDIR="/mnt/c/Users/Sergio Pozo"
 
 export PATH=$HOME/.local/bin:$PATH
 

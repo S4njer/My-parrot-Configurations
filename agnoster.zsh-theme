@@ -357,11 +357,17 @@ prompt_asset() {
     prompt_segment red white "󰯐 $ASSET"
 }
 
+prompt_date(){
+  date=$(command date --rfc-3339=s |tr '+' '_' | tr ' ' '_' | cut -d _ -f 1,2 )
+    prompt_segment black white "$date"
+}
+
 ## Main prompt
 build_prompt() {
   RETVAL=$?
   prompt_status
   prompt_virtualenv
+  prompt_date
   prompt_asset
   prompt_aws
   prompt_context
@@ -375,4 +381,4 @@ build_prompt() {
 
 }
 
-PROMPT='%{%f%b%k%}$(build_prompt) '
+PROMPT='%{%f%b%k%}$(build_prompt)' 
