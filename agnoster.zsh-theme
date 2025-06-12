@@ -372,19 +372,20 @@ prompt_ipaddress(){
 ## Main prompt
 build_prompt() {
   RETVAL=$?
-  prompt_status
   prompt_virtualenv
   prompt_date
   prompt_ipaddress
   prompt_asset
   prompt_aws
+  prompt_end
   prompt_context
   prompt_dir
   prompt_git
   prompt_bzr
   prompt_hg
+  prompt_status
   prompt_end
-  echo "   L %f%F{blue}$%f "
+  echo "    L %f%F{blue}$%f "
   # prompt_segment black default "%{%f%b%k%}"
 
 }
