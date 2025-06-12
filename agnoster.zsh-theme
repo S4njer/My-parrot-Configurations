@@ -358,8 +358,8 @@ prompt_asset() {
 }
 
 prompt_date(){
-  date=$(command date --rfc-3339=s |tr '+' '_' | tr ' ' '_' | cut -d _ -f 1,2 )
-    prompt_segment black white "$date"
+  date=$(command date --rfc-3339=s | tr '-' '/' | tr '+' '_' | cut -d _ -f 1 )
+    prompt_segment cyan white "$date"
 }
 
 ## Main prompt
@@ -376,7 +376,7 @@ build_prompt() {
   prompt_bzr
   prompt_hg
   prompt_end
-  echo "   L %f%F{blue}$%f"
+  echo "   L %f%F{blue}$%f "
   # prompt_segment black default "%{%f%b%k%}"
 
 }
