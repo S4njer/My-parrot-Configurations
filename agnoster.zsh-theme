@@ -359,7 +359,14 @@ prompt_asset() {
 
 prompt_date(){
   date=$(command date --rfc-3339=s | tr '-' '/' | tr '+' '_' | cut -d _ -f 1 )
-    prompt_segment cyan white "$date"
+    prompt_segment white black " $date"
+}
+
+prompt_ipaddress(){
+  iface="eth0"
+  ip_address=$(ip -o -4 addr list "$iface" | cut -d / -f 1 | awk '{print $4}')
+  prompt_segment cyan white " $iface: $ip_address"
+
 }
 
 ## Main prompt
@@ -368,6 +375,7 @@ build_prompt() {
   prompt_status
   prompt_virtualenv
   prompt_date
+  prompt_ipaddress
   prompt_asset
   prompt_aws
   prompt_context
